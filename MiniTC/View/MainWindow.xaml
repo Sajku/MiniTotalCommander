@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:view="clr-namespace:MiniTC.View"
         xmlns:vm="clr-namespace:MiniTC.ViewModel"
         mc:Ignorable="d"
-        Title="MiniTC" Height="600" Width="600">
+        Title="MiniTC" Height="600" Width="600" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <vm:MainViewModel x:Name="mainViewModel"/>
@@ -26,13 +27,30 @@
 
         <view:PanelTC Grid.Row="0"
                       Grid.Column="0"
-                      TextPath="{Binding Tb1}">
+                      TextPath="{Binding TextPath1}"
+                      DriveList="{Binding DriveList1}"
+                      SelectedDrive="{Binding SelectedDrive1}">
+            
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CbClick">
+                    <i:InvokeCommandAction Command="{Binding P1cbClick}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="CbSelect">
+                    <i:InvokeCommandAction Command="{Binding P1cbSelect}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             
         </view:PanelTC>
 
         <view:PanelTC Grid.Row="0"
                       Grid.Column="1">
 
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CbClick">
+                    <i:InvokeCommandAction Command="{Binding P2cbClick}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
         </view:PanelTC>
 
         <Button Grid.Row="1"
@@ -41,6 +59,7 @@
                 Height="35"
                 Content="Copy >>"
                 FontSize="17"/>
+
 
     </Grid>
 </Window>
