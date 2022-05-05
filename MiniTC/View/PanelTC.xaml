@@ -10,7 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition Height="7*"/>
+            <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
@@ -20,12 +20,20 @@
                Content="Drive"
                Margin="10 0 0 0"/>
 
+        <!--FIRST ELEMENT-->
         <ComboBox Grid.Row="0"
                   x:Name="cb"
+                  ItemsSource="{Binding DriveList, RelativeSource={RelativeSource
+                              Mode=FindAncestor,
+                              AncestorType={x:Type UserControl}}}"
+                  SelectedItem="{Binding SelectedDrive, RelativeSource={RelativeSource
+                               Mode=FindAncestor,
+                               AncestorType={x:Type UserControl}}}"
                   Width="70"
-                  Height="30"
-                  Margin="50 5 15 5"
-                  HorizontalAlignment="Left"/>
+                  Height="25"
+                  Margin="50 0 15 0"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"/>
 
         <Label Grid.Row="1"
                HorizontalAlignment="Left"
@@ -34,21 +42,31 @@
                Content="Path"
                Margin="10 0 0 0"/>
 
+        <!--SECOND ELEMENT-->
         <Border Grid.Row="1"
                 BorderBrush="{x:Null}"
                 Height="25"
                 Background="White"
                 Margin="50 0 15 0">
             <TextBlock x:Name="tb"
+                       Text="{Binding TextPath, RelativeSource={RelativeSource
+                            Mode=FindAncestor,
+                            AncestorType={x:Type UserControl}}}"
                        FontSize="10"
-                       Text="12312321"
                        TextWrapping="Wrap"
                        VerticalAlignment="Center"/>
         </Border>
 
+        <!--THIRD ELEMENT-->
         <ListBox Grid.Row="2"
                  x:Name="lb"
-                 Margin="15 15 15 0"/>
+                 ItemsSource="{Binding FilesList, RelativeSource={RelativeSource
+                             Mode=FindAncestor,
+                             AncestorType={x:Type UserControl}}}"
+                 SelectedItem="{Binding SelectedFile, RelativeSource={RelativeSource
+                              Mode=FindAncestor,
+                              AncestorType={x:Type UserControl}}}"
+                 Margin="15 5 15 0"/>
 
 
     </Grid>

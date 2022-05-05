@@ -6,7 +6,7 @@
         xmlns:view="clr-namespace:MiniTC.View"
         xmlns:vm="clr-namespace:MiniTC.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="600">
+        Title="MiniTC" Height="600" Width="600">
 
     <Window.DataContext>
         <vm:MainViewModel x:Name="mainViewModel"/>
@@ -25,7 +25,8 @@
         </Grid.ColumnDefinitions>
 
         <view:PanelTC Grid.Row="0"
-                      Grid.Column="0">
+                      Grid.Column="0"
+                      TextPath="{Binding Tb1}">
             
         </view:PanelTC>
 
