@@ -60,6 +60,9 @@
                 Content="Copy >>"
                 FontSize="17"/>
 
+        <ComboBox Grid.Row="1"
+                  ItemsSource="{Binding DriveList1}"
+                  SelectedItem="{Binding SelectedDrive1}"/>
 
     </Grid>
 </Window>

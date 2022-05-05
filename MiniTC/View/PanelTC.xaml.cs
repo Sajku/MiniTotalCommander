@@ -105,35 +105,9 @@ namespace MiniTC.View
             RaiseEvent(newEventArgs);
         }
 
-        // COMBOBOX SELECT
-        public static readonly RoutedEvent CbSelectEvent =
-            EventManager.RegisterRoutedEvent(
-                nameof(CbSelect),
-                RoutingStrategy.Bubble,
-                typeof(RoutedEventHandler),
-                typeof(PanelTC));
-
-        public event RoutedEventHandler CbSelect
-        {
-            add { AddHandler(CbClickEvent, value); }
-            remove { RemoveHandler(CbClickEvent, value); }
-        }
-
-        void RaiseCbSelect()
-        {
-            RoutedEventArgs newEventArgs =
-                new RoutedEventArgs(CbClickEvent);
-            RaiseEvent(newEventArgs);
-        }
-
         private void cb_DropDownOpened(object sender, EventArgs e)
         {
             RaiseCbClick();
-        }
-
-        private void cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            RaiseCbSelect();
         }
     }
 }
