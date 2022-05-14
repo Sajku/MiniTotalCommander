@@ -80,6 +80,18 @@ namespace MiniTC.View
             set { SetValue(FilesListProperty, value); }
         }
 
+        public static readonly DependencyProperty SelectedFileProperty =
+            DependencyProperty.Register(
+                nameof(SelectedFile),
+                typeof(string),
+                typeof(PanelTC));
+
+        public string SelectedFile
+        {
+            get { return (string)GetValue(SelectedFileProperty); }
+            set { SetValue(SelectedFileProperty, value); }
+        }
+
         // ----------------------------------------------------------------------------
         // EVENTS
         // ----------------------------------------------------------------------------
@@ -98,7 +110,7 @@ namespace MiniTC.View
             remove { RemoveHandler(CbClickEvent, value); }
         }
 
-        void RaiseCbClick()
+        public void RaiseCbClick()
         {
             RoutedEventArgs newEventArgs =
                 new RoutedEventArgs(PanelTC.CbClickEvent);
@@ -109,5 +121,6 @@ namespace MiniTC.View
         {
             RaiseCbClick();
         }
+
     }
 }

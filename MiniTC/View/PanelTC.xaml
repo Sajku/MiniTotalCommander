@@ -52,7 +52,6 @@
             <TextBlock x:Name="tb"
                        Text="{Binding TextPath, RelativeSource={RelativeSource
                             Mode=FindAncestor,
-                            AncestorLevel=1,
                             AncestorType={x:Type UserControl}}}"
                        FontSize="10"
                        TextWrapping="Wrap"

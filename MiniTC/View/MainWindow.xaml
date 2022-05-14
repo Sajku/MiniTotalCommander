@@ -9,11 +9,11 @@
         mc:Ignorable="d"
         Title="MiniTC" Height="600" Width="600" WindowStartupLocation="CenterScreen">
 
-    <Window.DataContext>
-        <vm:MainViewModel x:Name="mainViewModel"/>
-    </Window.DataContext>
+    <Window.Resources>
+        <vm:MainViewModel x:Key="mainVM"/>
+    </Window.Resources>
     
-    <Grid Background="LightGray">
+    <Grid Background="LightGray" DataContext="{StaticResource mainVM}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"/>
@@ -25,29 +25,35 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <view:PanelTC Grid.Row="0"
+        <view:PanelTC x:Name="PanelLeft"
+                      Grid.Row="0"
                       Grid.Column="0"
-                      TextPath="{Binding TextPath1}"
-                      DriveList="{Binding DriveList1}"
-                      SelectedDrive="{Binding SelectedDrive1}">
+                      DriveList="{Binding PanelLeft.DriveList}"
+                      SelectedDrive="{Binding PanelLeft.SelectedDrive}"
+                      TextPath="{Binding PanelLeft.TextPath}"
+                      FilesList="{Binding PanelLeft.FilesList}"
+                      SelectedFile="{Binding PanelLeft.SelectedFile}">
             
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CbClick">
-                    <i:InvokeCommandAction Command="{Binding P1cbClick}"/>
-                </i:EventTrigger>
-                <i:EventTrigger EventName="CbSelect">
-                    <i:InvokeCommandAction Command="{Binding P1cbSelect}"/>
+                    <i:InvokeCommandAction Command="{Binding PanelLeft.DriveListClick}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             
         </view:PanelTC>
 
-        <view:PanelTC Grid.Row="0"
-                      Grid.Column="1">
+        <view:PanelTC x:Name="PanelRight"
+                      Grid.Row="0"
+                      Grid.Column="1"
+                      DriveList="{Binding PanelRight.DriveList}"
+                      SelectedDrive="{Binding PanelRight.SelectedDrive}"
+                      TextPath="{Binding PanelRight.TextPath}"
+                      FilesList="{Binding PanelRight.FilesList}"
+                      SelectedFile="{Binding PanelRight.SelectedFile}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CbClick">
-                    <i:InvokeCommandAction Command="{Binding P2cbClick}"/>
+                    <i:InvokeCommandAction Command="{Binding PanelRight.DriveListClick}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             
@@ -58,11 +64,8 @@
                 Width="90"
                 Height="35"
                 Content="Copy >>"
-                FontSize="17"/>
-
-        <ComboBox Grid.Row="1"
-                  ItemsSource="{Binding DriveList1}"
-                  SelectedItem="{Binding SelectedDrive1}"/>
+                FontSize="17"
+                Command="{Binding Copy}"/>
 
     </Grid>
 </Window>
