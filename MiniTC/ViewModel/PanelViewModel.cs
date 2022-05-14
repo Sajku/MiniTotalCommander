@@ -49,6 +49,21 @@ namespace MiniTC.ViewModel
         private ICommand driveListSelect = null;
         public ICommand DriveListSelect => driveListSelect ?? (driveListSelect = new RelayCommand(o => Console.WriteLine("SELECT"), null));
 
+        private ICommand zaladujTelefony = null;
+        public ICommand ZaladujTelefony
+        {
+            get
+            {
+                if (zaladujTelefony == null)
+                    zaladujTelefony = new RelayCommand(
+                        arg => Console.WriteLine("1231231231213"),
+                        arg => true
+                        );
+
+                return zaladujTelefony;
+            }
+        }
+
         private void getDrives()
         {
             Console.WriteLine("CLICK!!!");

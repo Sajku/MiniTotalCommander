@@ -14,13 +14,15 @@ namespace MiniTC.ViewModel
     class MainViewModel : BaseViewModel
     {
 
-        public PanelTC PanelLeft { get; set; }
-        public PanelTC PanelRight { get; set; }
+        public PanelViewModel PanelLeft { get; set; }
+        public PanelViewModel PanelRight { get; set; }
 
         public MainViewModel()
         {
-            PanelLeft = new PanelTC();
-            PanelRight = new PanelTC();
+            PanelLeft = new PanelViewModel();
+            PanelRight = new PanelViewModel();
+            PanelLeft.TextPath = "111";
+            PanelRight.TextPath = "222";
         }
 
         private ICommand copy;

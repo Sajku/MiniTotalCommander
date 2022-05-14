@@ -12,7 +12,7 @@
     <Window.Resources>
         <vm:MainViewModel x:Key="mainVM"/>
     </Window.Resources>
-    
+
     <Grid Background="LightGray" DataContext="{StaticResource mainVM}">
 
         <Grid.RowDefinitions>
