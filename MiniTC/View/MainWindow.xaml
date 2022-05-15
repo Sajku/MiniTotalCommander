@@ -19,7 +19,7 @@
             <RowDefinition Height="7*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -33,7 +33,7 @@
                       TextPath="{Binding PanelLeft.CurrentPath}"
                       FilesList="{Binding PanelLeft.FilesList}"
                       SelectedFile="{Binding PanelLeft.SelectedFile, Mode=TwoWay}">
-            
+
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CbClick">
                     <i:InvokeCommandAction Command="{Binding PanelLeft.DriveListClick}"/>
@@ -42,7 +42,7 @@
                     <i:InvokeCommandAction Command="{Binding PanelLeft.FolderChange}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            
+
         </view:PanelTC>
 
         <view:PanelTC x:Name="PanelRight"
@@ -62,7 +62,7 @@
                     <i:InvokeCommandAction Command="{Binding PanelRight.FolderChange}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            
+
         </view:PanelTC>
 
         <Button Grid.Row="1"
@@ -72,6 +72,13 @@
                 Content="Copy >>"
                 FontSize="17"
                 Command="{Binding Copy}"/>
+
+        <Label Grid.Row="1"
+               Margin="5 5 50 5"
+               Foreground="#d00"
+               HorizontalContentAlignment="Left"
+               VerticalContentAlignment="Center"
+               Content="{Binding PanelLeft.ErrorDescription}"/>
 
     </Grid>
 </Window>

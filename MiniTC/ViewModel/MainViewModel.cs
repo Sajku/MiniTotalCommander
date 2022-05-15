@@ -25,8 +25,9 @@ namespace MiniTC.ViewModel
             PanelRight.CurrentPath = null;
         }
 
+
         private ICommand copy;
-        public ICommand Copy => copy ?? (copy = new RelayCommand(o => copyFile(), null));
+        public ICommand Copy => copy ?? (copy = new RelayCommand(o => copyFile(), o => PanelLeft.SelectedFile != null && PanelRight.CurrentPath != null));
 
         private void copyFile()
         {
@@ -37,7 +38,15 @@ namespace MiniTC.ViewModel
             string pathSource = PanelLeft.CurrentPath + PanelLeft.SelectedFile;
             string pathDestination = PanelRight.CurrentPath + PanelLeft.SelectedFile;
 
-            File.Copy(@pathSource, @pathDestination);
+            try
+            {
+                File.Copy(@pathSource, @pathDestination);
+            }
+            catch (IOException)
+            {
+                Console.WriteLine("Plik już istnieje!");
+                PanelLeft.ErrorDescription = "Error - Plik o takiej nazwie juz istnieje!";
+            }
 
             PanelRight.CurrentPath = PanelRight.CurrentPath;
 

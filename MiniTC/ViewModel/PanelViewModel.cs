@@ -68,6 +68,7 @@ namespace MiniTC.ViewModel
                         Console.WriteLine("Access error");
                         CurrentPath = Path.GetDirectoryName(CurrentPath);
                         CurrentPath = CurrentPath.Remove(CurrentPath.Length - 1, 1);
+                        ErrorDescription = "Error - Odmowa dostępu!";
                     }
                     
                 }
@@ -82,7 +83,19 @@ namespace MiniTC.ViewModel
             set
             {
                 selectedFile = value;
+                ErrorDescription = "";
                 OnPropertyChanged(nameof(SelectedFile));
+            }
+        }
+
+        private string errorDescription;
+        public string ErrorDescription
+        {
+            get => errorDescription;
+            set
+            {
+                errorDescription = value;
+                OnPropertyChanged(nameof(ErrorDescription));
             }
         }
 
