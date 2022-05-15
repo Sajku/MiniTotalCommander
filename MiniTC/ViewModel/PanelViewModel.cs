@@ -15,9 +15,11 @@ namespace MiniTC.ViewModel
         public PanelViewModel()
         {
             DriveList = new ObservableCollection<string>();
+            FilesList = new ObservableCollection<string>();
         }
 
         public ObservableCollection<string> DriveList { get; set; }
+        public ObservableCollection<string> FilesList { get; set; }
 
         private string selectedDrive;
         public string SelectedDrive
@@ -26,43 +28,69 @@ namespace MiniTC.ViewModel
             set
             {
                 selectedDrive = value;
-                TextPath = selectedDrive;
+                CurrentPath = SelectedDrive;
                 OnPropertyChanged(nameof(SelectedDrive));
             }
         }
 
-        private string textPath;
-        public string TextPath
+        private string currentPath;
+        public string CurrentPath
         {
-            get => textPath;
+            get => currentPath;
             set
             {
-                textPath = value;
-                OnPropertyChanged(nameof(TextPath));
+                currentPath = value;
+                if (currentPath != null)
+                {
+                    try
+                    {
+                        string[] directories = Directory.GetDirectories(CurrentPath);
+                        string[] files = Directory.GetFiles(CurrentPath);
+                        FilesList.Clear();
+                        if (CurrentPath.Count(f => f == '\\') != 1)
+                        {
+                            FilesList.Add("..");
+                        }
+
+                        object p = Path.GetDirectoryName(CurrentPath);
+                        Console.WriteLine(p);
+                        foreach (string d in directories)
+                        {
+                            FilesList.Add("<D>" + Path.GetFileName(d));
+                        }
+                        foreach (string f in files)
+                        {
+                            FilesList.Add(Path.GetFileName(f));
+                        }
+                    }
+                    catch
+                    {
+                        Console.WriteLine("ERROR");
+                    }
+                    
+                }
+                OnPropertyChanged(nameof(CurrentPath));
             }
         }
+
+        private string selectedFile;
+        public string SelectedFile
+        {
+            get => selectedFile;
+            set
+            {
+                selectedFile = value;
+                OnPropertyChanged(nameof(SelectedFile));
+            }
+        }
+
 
         private ICommand driveListClick = null;
-        public ICommand DriveListClick => driveListClick ?? (driveListClick = new RelayCommand(o => Console.WriteLine("CLICK"), o => true));
-        //public ICommand DriveListClick => driveListClick ?? (driveListClick = new RelayCommand(o => getDrives(), null));
+        public ICommand DriveListClick => driveListClick ?? (driveListClick = new RelayCommand(o => getDrives(), null));
 
-        private ICommand driveListSelect = null;
-        public ICommand DriveListSelect => driveListSelect ?? (driveListSelect = new RelayCommand(o => Console.WriteLine("SELECT"), null));
+        private ICommand folderChange = null;
+        public ICommand FolderChange => folderChange ?? (folderChange = new RelayCommand(o => changePath(), o => SelectedFile != null));
 
-        private ICommand zaladujTelefony = null;
-        public ICommand ZaladujTelefony
-        {
-            get
-            {
-                if (zaladujTelefony == null)
-                    zaladujTelefony = new RelayCommand(
-                        arg => Console.WriteLine("1231231231213"),
-                        arg => true
-                        );
-
-                return zaladujTelefony;
-            }
-        }
 
         private void getDrives()
         {
@@ -75,6 +103,25 @@ namespace MiniTC.ViewModel
             {
                 //Console.WriteLine(str);
                 DriveList.Add(str);
+            }
+        }
+
+        private void changePath()
+        {
+            // RETURN TO PREVIOUS DIRECTORY
+            if (SelectedFile == "..")
+            {
+                CurrentPath = Path.GetDirectoryName(Path.GetDirectoryName(CurrentPath));
+                if (CurrentPath.Last() != '\\')
+                {
+                    CurrentPath += "\\";
+                }
+            }
+            else
+            {
+                SelectedFile = SelectedFile.Remove(0, 3);
+                CurrentPath += SelectedFile;
+                CurrentPath += "\\";
             }
         }
 

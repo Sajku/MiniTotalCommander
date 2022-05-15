@@ -21,12 +21,27 @@ namespace MiniTC.ViewModel
         {
             PanelLeft = new PanelViewModel();
             PanelRight = new PanelViewModel();
-            PanelLeft.TextPath = "111";
-            PanelRight.TextPath = "222";
+            PanelLeft.CurrentPath = null;
+            PanelRight.CurrentPath = null;
         }
 
         private ICommand copy;
-        public ICommand Copy => copy ?? (copy = new RelayCommand(o => Console.WriteLine("COPYYYYYYYYY!"), null));
+        public ICommand Copy => copy ?? (copy = new RelayCommand(o => copyFile(), null));
+
+        private void copyFile()
+        {
+            Console.WriteLine("COPYYYYYY!");
+
+            Console.WriteLine(PanelLeft.CurrentPath);
+            Console.WriteLine(PanelLeft.SelectedFile);
+            string pathSource = PanelLeft.CurrentPath + PanelLeft.SelectedFile;
+            string pathDestination = PanelRight.CurrentPath + PanelLeft.SelectedFile;
+
+            File.Copy(@pathSource, @pathDestination);
+
+            PanelRight.CurrentPath = PanelRight.CurrentPath;
+
+        }
 
     }
 }

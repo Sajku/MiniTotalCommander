@@ -29,14 +29,17 @@
                       Grid.Row="0"
                       Grid.Column="0"
                       DriveList="{Binding PanelLeft.DriveList}"
-                      SelectedDrive="{Binding PanelLeft.SelectedDrive}"
-                      TextPath="{Binding PanelLeft.TextPath}"
+                      SelectedDrive="{Binding PanelLeft.SelectedDrive, Mode=TwoWay}"
+                      TextPath="{Binding PanelLeft.CurrentPath}"
                       FilesList="{Binding PanelLeft.FilesList}"
-                      SelectedFile="{Binding PanelLeft.SelectedFile}">
+                      SelectedFile="{Binding PanelLeft.SelectedFile, Mode=TwoWay}">
             
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CbClick">
                     <i:InvokeCommandAction Command="{Binding PanelLeft.DriveListClick}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="LdDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding PanelLeft.FolderChange}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             
@@ -46,14 +49,17 @@
                       Grid.Row="0"
                       Grid.Column="1"
                       DriveList="{Binding PanelRight.DriveList}"
-                      SelectedDrive="{Binding PanelRight.SelectedDrive}"
-                      TextPath="{Binding PanelRight.TextPath}"
+                      SelectedDrive="{Binding PanelRight.SelectedDrive, Mode=TwoWay}"
+                      TextPath="{Binding PanelRight.CurrentPath}"
                       FilesList="{Binding PanelRight.FilesList}"
-                      SelectedFile="{Binding PanelRight.SelectedFile}">
+                      SelectedFile="{Binding PanelRight.SelectedFile, Mode=TwoWay}">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CbClick">
                     <i:InvokeCommandAction Command="{Binding PanelRight.DriveListClick}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="LdDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding PanelRight.FolderChange}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             

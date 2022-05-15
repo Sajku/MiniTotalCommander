@@ -117,10 +117,35 @@ namespace MiniTC.View
             RaiseEvent(newEventArgs);
         }
 
+        // LISTBOX DOUBLE CLICK
+        public static readonly RoutedEvent LbDoubleClickEvent =
+            EventManager.RegisterRoutedEvent(
+                nameof(LdDoubleClick),
+                RoutingStrategy.Bubble,
+                typeof(RoutedEventHandler),
+                typeof(PanelTC));
+
+        public event RoutedEventHandler LdDoubleClick
+        {
+            add { AddHandler(LbDoubleClickEvent, value); }
+            remove { RemoveHandler(LbDoubleClickEvent, value); }
+        }
+
+        public void RaiseLdDoubleClick()
+        {
+            RoutedEventArgs newEventArgs =
+                new RoutedEventArgs(PanelTC.LbDoubleClickEvent);
+            RaiseEvent(newEventArgs);
+        }
+
         private void cb_DropDownOpened(object sender, EventArgs e)
         {
             RaiseCbClick();
         }
 
+        private void lb_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            RaiseLdDoubleClick();
+        }
     }
 }
