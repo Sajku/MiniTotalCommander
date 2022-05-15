@@ -63,9 +63,11 @@ namespace MiniTC.ViewModel
                             FilesList.Add(Path.GetFileName(f));
                         }
                     }
-                    catch
+                    catch (UnauthorizedAccessException)
                     {
-                        Console.WriteLine("ERROR");
+                        Console.WriteLine("Access error");
+                        CurrentPath = Path.GetDirectoryName(CurrentPath);
+                        CurrentPath = CurrentPath.Remove(CurrentPath.Length - 1, 1);
                     }
                     
                 }
