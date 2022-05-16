@@ -10,19 +10,19 @@ namespace MiniTC.Model
 {
     class PanelModel
     {
-        private string currentPath;
+        public string CurrentPath { get; set; }
         private string errorDescription;
 
         public List<string> UpdateFiles()
         {
             List<string> list = new List<string>();
-            if (currentPath != null)
+            if (CurrentPath != null)
             {
                 try
                 {
-                    string[] directories = Directory.GetDirectories(currentPath);
-                    string[] files = Directory.GetFiles(currentPath);
-                    if (currentPath.Count(f => f == '\\') != 1)
+                    string[] directories = Directory.GetDirectories(CurrentPath);
+                    string[] files = Directory.GetFiles(CurrentPath);
+                    if (CurrentPath.Count(f => f == '\\') != 1)
                     {
                         list.Add("..");
                     }
@@ -39,8 +39,7 @@ namespace MiniTC.Model
                 catch (UnauthorizedAccessException)
                 {
                     Console.WriteLine("Access error");
-                    currentPath = Path.GetDirectoryName(currentPath);
-                    currentPath = currentPath.Remove(currentPath.Length - 1, 1);
+                    CurrentPath = Path.GetDirectoryName(Path.GetDirectoryName(CurrentPath));
                     errorDescription = "Error - Odmowa dostępu!";
                 }
 
@@ -68,25 +67,21 @@ namespace MiniTC.Model
             // RETURN TO PREVIOUS DIRECTORY
             if (s == "..")
             {
-                currentPath = Path.GetDirectoryName(Path.GetDirectoryName(currentPath));
-                if (currentPath.Last() != '\\')
+                CurrentPath = Path.GetDirectoryName(Path.GetDirectoryName(CurrentPath));
+                if (CurrentPath.Last() != '\\')
                 {
-                    currentPath += "\\";
+                    CurrentPath += "\\";
                 }
             }
             else
             {
                 s = s.Remove(0, 3);
-                currentPath += s;
-                currentPath += "\\";
+                CurrentPath += s;
+                CurrentPath += "\\";
             }
 
-            return currentPath;
+            return CurrentPath;
         }
 
-        public void setPath(string s)
-        {
-            currentPath = s;
-        }
     }
 }

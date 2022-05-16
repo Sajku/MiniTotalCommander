@@ -9,21 +9,10 @@ namespace MiniTC.Model
 {
     static class Copying
     {
-        public static string CopyFile(string s, string d)
+        public static void CopyFile(string s, string d)
         {
             Console.WriteLine("COPYYYYYY!");
-            string x = "";
-            try
-            {
-                File.Copy(@s, @d);
-            }
-            catch (IOException)
-            {
-                Console.WriteLine("Plik już istnieje!");
-                x = "Error - Plik o takiej nazwie juz istnieje!";
-            }
-
-            return x;
+            File.Copy(@s, @d);
         }
     }
 }

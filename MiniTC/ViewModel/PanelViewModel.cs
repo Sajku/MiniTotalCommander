@@ -43,11 +43,17 @@ namespace MiniTC.ViewModel
             set
             {
                 currentPath = value;
-                Model.setPath(currentPath);
-                FilesList.Clear();
+                Model.CurrentPath = currentPath;
+                
                 List<string> files = Model.UpdateFiles();
-                foreach (string f in files)
-                    FilesList.Add(f);
+                currentPath = Model.CurrentPath;
+                if (files.Count() > 1)
+                {
+                    FilesList.Clear();
+                    foreach (string f in files)
+                        FilesList.Add(f);
+                }
+                
                 OnPropertyChanged(nameof(CurrentPath));
             }
         }

@@ -33,7 +33,15 @@ namespace MiniTC.ViewModel
             {
                 string pathSource = PanelLeft.CurrentPath + PanelLeft.SelectedFile;
                 string pathDestination = PanelRight.CurrentPath + PanelLeft.SelectedFile;
-                PanelLeft.ErrorDescription = Copying.CopyFile(pathSource, pathDestination);
+                try
+                {
+                    Copying.CopyFile(pathSource, pathDestination);
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine("Plik już istnieje!");
+                    PanelLeft.ErrorDescription = "Error - Plik o takiej nazwie juz istnieje!";
+                }
                 PanelRight.CurrentPath = PanelRight.CurrentPath;
             },
             o => PanelLeft.SelectedFile != null && PanelRight.CurrentPath != null));
