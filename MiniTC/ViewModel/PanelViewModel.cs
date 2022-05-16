@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniTC.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -16,8 +17,10 @@ namespace MiniTC.ViewModel
         {
             DriveList = new ObservableCollection<string>();
             FilesList = new ObservableCollection<string>();
+            Model = new PanelModel();
         }
 
+        public PanelModel Model = null;
         public ObservableCollection<string> DriveList { get; set; }
         public ObservableCollection<string> FilesList { get; set; }
 
@@ -40,38 +43,11 @@ namespace MiniTC.ViewModel
             set
             {
                 currentPath = value;
-                if (currentPath != null)
-                {
-                    try
-                    {
-                        string[] directories = Directory.GetDirectories(CurrentPath);
-                        string[] files = Directory.GetFiles(CurrentPath);
-                        FilesList.Clear();
-                        if (CurrentPath.Count(f => f == '\\') != 1)
-                        {
-                            FilesList.Add("..");
-                        }
-
-                        object p = Path.GetDirectoryName(CurrentPath);
-                        Console.WriteLine(p);
-                        foreach (string d in directories)
-                        {
-                            FilesList.Add("<D>" + Path.GetFileName(d));
-                        }
-                        foreach (string f in files)
-                        {
-                            FilesList.Add(Path.GetFileName(f));
-                        }
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        Console.WriteLine("Access error");
-                        CurrentPath = Path.GetDirectoryName(CurrentPath);
-                        CurrentPath = CurrentPath.Remove(CurrentPath.Length - 1, 1);
-                        ErrorDescription = "Error - Odmowa dostępu!";
-                    }
-                    
-                }
+                Model.setPath(currentPath);
+                FilesList.Clear();
+                List<string> files = Model.UpdateFiles();
+                foreach (string f in files)
+                    FilesList.Add(f);
                 OnPropertyChanged(nameof(CurrentPath));
             }
         }
@@ -101,44 +77,15 @@ namespace MiniTC.ViewModel
 
 
         private ICommand driveListClick = null;
-        public ICommand DriveListClick => driveListClick ?? (driveListClick = new RelayCommand(o => getDrives(), null));
+        public ICommand DriveListClick => driveListClick ?? (driveListClick = new RelayCommand(o => {
+            List<string> drives = Model.getDrives();
+            DriveList.Clear();
+            foreach (string d in drives)
+                DriveList.Add(d);
+            }, null));
 
         private ICommand folderChange = null;
-        public ICommand FolderChange => folderChange ?? (folderChange = new RelayCommand(o => changePath(), o => SelectedFile != null));
-
-
-        private void getDrives()
-        {
-            Console.WriteLine("CLICK!!!");
-            string[] x = Directory.GetLogicalDrives();
-
-            for (int i = 0; i < DriveList.Count + i; i++)
-                DriveList.RemoveAt(0);
-            foreach (string str in x)
-            {
-                //Console.WriteLine(str);
-                DriveList.Add(str);
-            }
-        }
-
-        private void changePath()
-        {
-            // RETURN TO PREVIOUS DIRECTORY
-            if (SelectedFile == "..")
-            {
-                CurrentPath = Path.GetDirectoryName(Path.GetDirectoryName(CurrentPath));
-                if (CurrentPath.Last() != '\\')
-                {
-                    CurrentPath += "\\";
-                }
-            }
-            else
-            {
-                SelectedFile = SelectedFile.Remove(0, 3);
-                CurrentPath += SelectedFile;
-                CurrentPath += "\\";
-            }
-        }
+        public ICommand FolderChange => folderChange ?? (folderChange = new RelayCommand(o => CurrentPath = Model.changePath(SelectedFile), o => SelectedFile != null));
 
     }
 }

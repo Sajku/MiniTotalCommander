@@ -1,4 +1,5 @@
-﻿using MiniTC.View;
+﻿using MiniTC.Model;
+using MiniTC.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,30 +28,15 @@ namespace MiniTC.ViewModel
 
 
         private ICommand copy;
-        public ICommand Copy => copy ?? (copy = new RelayCommand(o => copyFile(), o => PanelLeft.SelectedFile != null && PanelRight.CurrentPath != null));
-
-        private void copyFile()
-        {
-            Console.WriteLine("COPYYYYYY!");
-
-            Console.WriteLine(PanelLeft.CurrentPath);
-            Console.WriteLine(PanelLeft.SelectedFile);
-            string pathSource = PanelLeft.CurrentPath + PanelLeft.SelectedFile;
-            string pathDestination = PanelRight.CurrentPath + PanelLeft.SelectedFile;
-
-            try
+        public ICommand Copy => copy ?? (copy = new RelayCommand(
+            o =>
             {
-                File.Copy(@pathSource, @pathDestination);
-            }
-            catch (IOException)
-            {
-                Console.WriteLine("Plik już istnieje!");
-                PanelLeft.ErrorDescription = "Error - Plik o takiej nazwie juz istnieje!";
-            }
-
-            PanelRight.CurrentPath = PanelRight.CurrentPath;
-
-        }
+                string pathSource = PanelLeft.CurrentPath + PanelLeft.SelectedFile;
+                string pathDestination = PanelRight.CurrentPath + PanelLeft.SelectedFile;
+                PanelLeft.ErrorDescription = Copying.CopyFile(pathSource, pathDestination);
+                PanelRight.CurrentPath = PanelRight.CurrentPath;
+            },
+            o => PanelLeft.SelectedFile != null && PanelRight.CurrentPath != null));
 
     }
 }
