@@ -31,20 +31,42 @@ namespace MiniTC.ViewModel
         public ICommand Copy => copy ?? (copy = new RelayCommand(
             o =>
             {
-                string pathSource = PanelLeft.CurrentPath + PanelLeft.SelectedFile;
-                string pathDestination = PanelRight.CurrentPath + PanelLeft.SelectedFile;
-                try
+                // LEFT PANEL IS ACTIVE
+                if (PanelRight.SelectedFile == null)
                 {
-                    Copying.CopyFile(pathSource, pathDestination);
+                    string pathSource = PanelLeft.CurrentPath + PanelLeft.SelectedFile;
+                    string pathDestination = PanelRight.CurrentPath + PanelLeft.SelectedFile;
+                    try
+                    {
+                        Copying.CopyFile(pathSource, pathDestination);
+                    }
+                    catch (IOException)
+                    {
+                        Console.WriteLine("Plik już istnieje!");
+                        PanelLeft.ErrorDescription = "Error - Plik o takiej nazwie juz istnieje!";
+                    }
+                    PanelRight.CurrentPath = PanelRight.CurrentPath;
                 }
-                catch (IOException)
+                // RIGHT PANEL IS ACTIVE
+                else
                 {
-                    Console.WriteLine("Plik już istnieje!");
-                    PanelLeft.ErrorDescription = "Error - Plik o takiej nazwie juz istnieje!";
+                    string pathSource = PanelRight.CurrentPath + PanelRight.SelectedFile;
+                    string pathDestination = PanelLeft.CurrentPath + PanelRight.SelectedFile;
+                    try
+                    {
+                        Copying.CopyFile(pathSource, pathDestination);
+                    }
+                    catch (IOException)
+                    {
+                        Console.WriteLine("Plik już istnieje!");
+                        PanelLeft.ErrorDescription = "Error - Plik o takiej nazwie juz istnieje!";
+                    }
+                    PanelLeft.CurrentPath = PanelLeft.CurrentPath;
                 }
-                PanelRight.CurrentPath = PanelRight.CurrentPath;
+                
             },
-            o => PanelLeft.SelectedFile != null && PanelRight.CurrentPath != null));
+            o => PanelLeft.SelectedFile != null && PanelRight.CurrentPath != null ||
+                 PanelRight.SelectedFile != null && PanelLeft.CurrentPath != null));
 
     }
 }
