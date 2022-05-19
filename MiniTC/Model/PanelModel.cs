@@ -62,7 +62,7 @@ namespace MiniTC.Model
                     CurrentPath += "\\";
                 }
             }
-            else
+            else if (s.StartsWith("<D>"))
             {
                 s = s.Remove(0, 3);
                 CurrentPath += s;
