@@ -79,6 +79,14 @@
                HorizontalContentAlignment="Left"
                VerticalContentAlignment="Center"
                Content="{Binding PanelLeft.ErrorDescription}"/>
+        
+        <Label Grid.Row="1"
+               Grid.Column="1"
+               Margin="50 5 5 5"
+               Foreground="#d00"
+               HorizontalContentAlignment="Right"
+               VerticalContentAlignment="Center"
+               Content="{Binding PanelRight.ErrorDescription}"/>
 
     </Grid>
 </Window>

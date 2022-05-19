@@ -30,6 +30,7 @@ namespace MiniTC.ViewModel
             get => selectedDrive;
             set
             {
+                ErrorDescription = "";
                 selectedDrive = value;
                 CurrentPath = SelectedDrive;
                 OnPropertyChanged(nameof(SelectedDrive));
@@ -44,9 +45,18 @@ namespace MiniTC.ViewModel
             {
                 currentPath = value;
                 Model.CurrentPath = currentPath;
-                
-                List<string> files = Model.UpdateFiles();
-                currentPath = Model.CurrentPath;
+                List<string> files = new List<string>();
+                try
+                {
+                    files = Model.UpdateFiles();
+                }
+                catch
+                {
+                    Console.WriteLine("Access error");
+                    if (CurrentPath != Path.GetDirectoryName(Path.GetDirectoryName(currentPath)))
+                        CurrentPath = Path.GetDirectoryName(Path.GetDirectoryName(currentPath));
+                    ErrorDescription = "Error - Odmowa dostępu!";
+                }
                 if (files.Count() > 1)
                 {
                     FilesList.Clear();
@@ -83,12 +93,15 @@ namespace MiniTC.ViewModel
 
 
         private ICommand driveListClick = null;
-        public ICommand DriveListClick => driveListClick ?? (driveListClick = new RelayCommand(o => {
-            List<string> drives = Model.getDrives();
-            DriveList.Clear();
-            foreach (string d in drives)
-                DriveList.Add(d);
-            }, null));
+        public ICommand DriveListClick => driveListClick ?? (driveListClick = new RelayCommand(
+            o =>
+                {
+                List<string> drives = Model.getDrives();
+                DriveList.Clear();
+                foreach (string d in drives)
+                    DriveList.Add(d);
+                },
+            null));
 
         private ICommand folderChange = null;
         public ICommand FolderChange => folderChange ?? (folderChange = new RelayCommand(o => CurrentPath = Model.changePath(SelectedFile), o => SelectedFile != null));

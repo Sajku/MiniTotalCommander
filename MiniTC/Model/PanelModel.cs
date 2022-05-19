@@ -11,38 +11,27 @@ namespace MiniTC.Model
     class PanelModel
     {
         public string CurrentPath { get; set; }
-        private string errorDescription;
 
         public List<string> UpdateFiles()
         {
             List<string> list = new List<string>();
             if (CurrentPath != null)
             {
-                try
+                string[] directories = Directory.GetDirectories(CurrentPath);
+                string[] files = Directory.GetFiles(CurrentPath);
+                if (CurrentPath.Count(f => f == '\\') != 1)
                 {
-                    string[] directories = Directory.GetDirectories(CurrentPath);
-                    string[] files = Directory.GetFiles(CurrentPath);
-                    if (CurrentPath.Count(f => f == '\\') != 1)
-                    {
-                        list.Add("..");
-                    }
-
-                    foreach (string d in directories)
-                    {
-                        list.Add("<D>" + Path.GetFileName(d));
-                    }
-                    foreach (string f in files)
-                    {
-                        list.Add(Path.GetFileName(f));
-                    }
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    Console.WriteLine("Access error");
-                    CurrentPath = Path.GetDirectoryName(Path.GetDirectoryName(CurrentPath));
-                    errorDescription = "Error - Odmowa dostępu!";
+                    list.Add("..");
                 }
 
+                foreach (string d in directories)
+                {
+                    list.Add("<D>" + Path.GetFileName(d));
+                }
+                foreach (string f in files)
+                {
+                    list.Add(Path.GetFileName(f));
+                }
             }
             return list;
         }
