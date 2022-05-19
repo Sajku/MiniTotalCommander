@@ -53,11 +53,10 @@ namespace MiniTC.ViewModel
                 catch
                 {
                     Console.WriteLine("Access error");
-                    if (CurrentPath != Path.GetDirectoryName(Path.GetDirectoryName(currentPath)))
-                        CurrentPath = Path.GetDirectoryName(Path.GetDirectoryName(currentPath));
+                    CurrentPath = Path.GetDirectoryName(currentPath);
                     ErrorDescription = "Error - Odmowa dostępu!";
                 }
-                if (files.Count() > 1)
+                if (files.Count() > 0)
                 {
                     FilesList.Clear();
                     foreach (string f in files)
