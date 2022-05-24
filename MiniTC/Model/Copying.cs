@@ -12,7 +12,14 @@ namespace MiniTC.Model
         public static void CopyFile(string s, string d)
         {
             Console.WriteLine("COPYYYYYY!");
-            File.Copy(@s, @d);
+            try
+            {
+                File.Copy(@s, @d);
+            }
+            catch
+            {
+
+            }
         }
     }
 }
