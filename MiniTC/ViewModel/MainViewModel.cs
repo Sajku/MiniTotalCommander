@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +39,7 @@ namespace MiniTC.ViewModel
                     {
                         Copying.CopyFile(pathSource, pathDestination);
                     }
-                    catch (IOException)
+                    catch (Exception)
                     {
                         Console.WriteLine("Plik już istnieje!");
                         PanelLeft.ErrorDescription = "Error - Plik o takiej nazwie juz istnieje!";
@@ -56,7 +55,7 @@ namespace MiniTC.ViewModel
                     {
                         Copying.CopyFile(pathSource, pathDestination);
                     }
-                    catch (IOException)
+                    catch (Exception)
                     {
                         Console.WriteLine("Plik już istnieje!");
                         PanelLeft.ErrorDescription = "Error - Plik o takiej nazwie juz istnieje!";
